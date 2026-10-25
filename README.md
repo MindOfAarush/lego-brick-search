@@ -18,11 +18,13 @@ python brick_search.py search "light gray brick 2 x 4"
 
 FastEmbed downloads its embedding model on first use. Qdrant runs locally,
 without Docker or a server, and persists vectors in `qdrant_storage/`.
-This folder is excluded from Git. Repeating indexing upserts the same records.
-If you replace the inventory or change the embedding model, delete
-`qdrant_storage/` and index again to remove stale records.
+This folder is excluded from Git. Indexing rebuilds the managed `lego_parts` collection from the CSV, removing
+stale points from earlier indexing runs. Each distinct `element_id` creates
+exactly one point, including when regular and spare rows share that ID.
+Payloads retain all original `inventory_rows` and separate `regular_quantity`
+and `spare_quantity` totals. Point IDs depend only on the element ID.
 
-Search returns candidate inventory rows with their element IDs, design numbers,
+Search returns candidate elements with their element IDs, design numbers,
 colors, and similarity scores. Scores are not confidence probabilities; review
 candidates before correcting part numbers. The supplied inventory has not been
 validated against the complete official set inventory. Element IDs and design
