@@ -52,8 +52,19 @@ from search import dense_search
 ranked_ids = dense_search("3001 dark grey", limit=5)
 ```
 
-Or run `python search.py "3001 dark grey" --limit 5`.
-Returns element IDs in descending cosine similarity order from `parts_75192`.
+`dense_search()` returns IDs for compatibility. `dense_search_results()` returns
+ranked element IDs, design numbers, colour names, and similarity scores.
+The CLI `python search.py "3001 dark grey" --limit 5` prints these full results
+in descending cosine similarity order from `parts_75192`.
+
+Run `python leo_baseline.py` to evaluate the request
+`I need a dark grey 3001 Brick 2 x 4 for set 75192.` against element `4211388`.
+Each of the top five lines shows the ID, colour, design number, and score.
+The report checks exact-ID retrieval separately from the top result's colour,
+so a correct-colour result with the wrong element is not called a colour failure.
+Save the actual output with
+`python leo_baseline.py | tee outputs/leo_baseline_output.txt`.
+
 This baseline uses the same FastEmbed model as ingestion, with no colour aliases,
 metadata filters, or reranking. Run `python ingest.py` first.
 

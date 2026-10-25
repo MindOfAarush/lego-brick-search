@@ -15,8 +15,8 @@ def _encoder():
     return TextEmbedding(model_name=MODEL)
 
 
-def dense_search(query: str, limit: int = 10) -> list[str]:
-    """Return element IDs in descending dense similarity order.
+def dense_search_results(query: str, limit: int = 10) -> list[dict]:
+    """Return IDs, colours, design numbers, and scores in similarity order.
 
     Uses the ingestion model's query embeddings without aliases, colour filters,
     or design-number filters. Run ingest.py before searching.
@@ -36,9 +36,16 @@ def dense_search(query: str, limit: int = 10) -> list[str]:
             limit=limit,
             with_payload=True,
         ).points
-        return [hit.payload["element_id"] for hit in hits]
+        return [
+            {**hit.payload, "score": hit.score} for hit in hits
+        ]
     finally:
         client.close()
+
+
+def dense_search(query: str, limit: int = 10) -> list[str]:
+    """Return ranked element IDs; use dense_search_results for hit metadata."""
+    return [hit["element_id"] for hit in dense_search_results(query, limit)]
 
 
 def main():
@@ -46,7 +53,7 @@ def main():
     parser.add_argument("query")
     parser.add_argument("--limit", type=int, default=10)
     args = parser.parse_args()
-    print(json.dumps(dense_search(args.query, args.limit), indent=2))
+    print(json.dumps(dense_search_results(args.query, args.limit), indent=2))
 
 
 if __name__ == "__main__":
