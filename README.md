@@ -30,6 +30,20 @@ candidates before correcting part numbers. The supplied inventory has not been
 validated against the complete official set inventory. Element IDs and design
 numbers remain separate strings, preserving alphanumeric identifiers.
 
+## Set 75192 ingestion
+
+```bash
+mkdir -p outputs
+python ingest.py | tee outputs/ingest_output.txt
+```
+
+This builds `parts_75192` in persistent `qdrant_storage/`, with one UUID point
+per distinct element ID and payload fields `element_id`, `design_number`, and
+`colour_name`. Descriptions use `design_number colour_name part_name` with
+`BAAI/bge-small-en-v1.5` embeddings and cosine distance. Regular rows take
+precedence over duplicate spare rows. Each run rebuilds this collection and
+prints the exact point count beside the distinct-ID count.
+
 ## References
 
 - [Qdrant Python client](https://github.com/qdrant/qdrant-client)
