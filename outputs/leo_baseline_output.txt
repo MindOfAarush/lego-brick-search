@@ -1,0 +1,13 @@
+Leo's request: I need a dark grey 3001 Brick 2 x 4 for set 75192.
+Missing piece: 4211388 | Dark Bluish Gray | design 3001
+
+Dense baseline - top 5:
+  1. 4211089 | Dark Bluish Gray | design 3004 | score 0.835057
+  2. 4211388 | Dark Bluish Gray | design 3001 | score 0.833843
+  3. 4211062 | Dark Bluish Gray | design 3003 | score 0.820410
+  4. 4114086 | Black | design 3004 | score 0.817723
+  5. 4211365 | Light Bluish Gray | design 3004 | score 0.809069
+
+ID CHECK: Top-1 FAIL | Top-5 PASS | Expected ID rank: 2
+COLOUR VERDICT: Top-1 PASS | Returned: Dark Bluish Gray | Expected: Dark Bluish Gray
+The top result has the right colour but the wrong element ID.
