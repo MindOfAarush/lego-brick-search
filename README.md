@@ -44,6 +44,19 @@ per distinct element ID and payload fields `element_id`, `design_number`, and
 precedence over duplicate spare rows. Each run rebuilds this collection and
 prints the exact point count beside the distinct-ID count.
 
+## Dense baseline search
+
+```python
+from search import dense_search
+
+ranked_ids = dense_search("3001 dark grey", limit=5)
+```
+
+Or run `python search.py "3001 dark grey" --limit 5`.
+Returns element IDs in descending cosine similarity order from `parts_75192`.
+This baseline uses the same FastEmbed model as ingestion, with no colour aliases,
+metadata filters, or reranking. Run `python ingest.py` first.
+
 ## References
 
 - [Qdrant Python client](https://github.com/qdrant/qdrant-client)
